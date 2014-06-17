@@ -1,0 +1,130 @@
+@font-face {
+	font-family: Joystix;
+	src: url(/fonts/joystix.otf), url(/fonts/joystix.ttf);
+	font-weight: bold;
+}
+@media (max-width: 528px) {
+	#linkList {
+		width: 100%;   
+	}
+	#mainHeader {
+		text-align: center;
+	}
+}
+@media (min-width: 529px) {
+	#linkList li{
+		display: inline-block;
+		width: 125px;
+	}
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
+	background-color: black;
+	color: white;
+	font-family: Joystix;
+}
+#headerBar {
+	font-family:Joystix;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABVCAYAAACICo5oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAuSURBVChTYwCC/0wgkprEWxkVPLJkEkLJzHhkySMY/p/ko7r3Gf5/onaYMjAAAAFJCQ4Qro8ZAAAAAElFTkSuQmCC);
+	border-bottom: 2px solid white;
+}
+#mainHeader {
+	margin: 0;
+	padding: 0;
+	z-index:5;
+	position:relative;
+	color:white;
+	font-size: 30pt;
+	text-shadow: -1px 0 green, 0 1px green,
+	1px 0 green, 0 -1px green
+}
+#linkList {
+	padding: 0;
+	margin:0;
+	list-style-type: none;
+	display: inline-block;
+	background-color: rgb(192, 219, 243);
+}
+#linkList li {
+	text-align: center;
+	padding: 5px 10px;
+	border-top: 2px solid white;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+}
+#content {
+	margin: 0;
+	padding: 10px;
+	position: relative;
+	z-index:100;  
+	top: 0px;
+}
+#linkList a {
+	text-decoration:none;  
+	font-weight: bold; 
+}
+.video-game-button {
+	text-shadow: 1px 1px pink, -1px -1px maroon;
+	font-size: 19pt;
+	line-height: 1.5em;
+	text-align: center;
+	display: inline-block;
+	width: 1.5em;
+	-webkit-border-radius: .75em;
+	-moz-border-radius: .75em;
+	-o-border-radius: .75em;
+		border-radius: .75em;
+	background-color: red;
+	-webkit-box-shadow:  0 .2em maroon;
+	-moz-box-shadow:  0 .2em maroon;
+	-o-box-shadow:  0 .2em maroon;
+	box-shadow:  0 .2em maroon;
+	color: red;
+	margin: 5px;
+	background-color: red;
+	background-image: -o-linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	background-image: -moz-linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	background-image: -webkit-linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	background-image: linear-gradient(left top, pink 3%, red 22%, maroon 99%);
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.video-game-button:active, .start-btn:active {
+	box-shadow: none;
+	position: relative;
+	top: .2em;
+}
+.start-btn{
+    text-align: center;
+	display: inline-block;
+	margin:5px;
+    font-size:16pt;
+    font-weight: bold;
+    padding: 3px;
+    background-color: lightgray;
+    text-shadow: -1px -1px black, 1px 1px white;
+    color: gray;
+    -webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	-o-border-radius: 7px;
+	border-radius: 7px;
+    box-shadow: 0 .2em gray; 
+    cursor: pointer;
+    width: 115px;
+}
+#leftSide{
+ float: left;
+ width: 30% 
+}
+#rightSide {
+    display: inline-block;  
+    width: 50%;
+}

@@ -1,0 +1,171 @@
+extends layout
+block content
+	h2 About Death By Degrees
+	p.
+		Death by degrees finds how video game characters are connected to each other through crossover video games, like actors in "Six Degrees of Kevin Bacon." 
+		Death by degrees is guaranteed to produce the shortest path between two chararacters or your money back.
+	script(type="text/javascript")
+		var Defaults = {
+			height: 20,
+			width: 20,
+			color: '#00FF00'
+		};
+		var Direction = {UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4}
+		var currentKonamiEvents = [];
+		function Segment(x, y, color) {
+			var self = this;
+			this.x = x || 0;
+			this.y = y || 0;
+			this.color = color || Defaults.color;
+			this.element = $('<div></div>').css({
+					display: 'inline-block',
+					width: (self.width-2) + 'px',
+					height: (self.height -2)+ 'px',
+					position: 'fixed',
+					backgroundColor: self.color,
+					zIndex: 10000,
+					border: '1px solid black'
+				});
+			this.draw = function(ctx) {
+				$(this.element).css({
+					left: (self.x * self.width) + 'px',
+					top: (self.y * self.height) + 'px',
+				});
+			}
+			$('body').append(this.element);
+			this.draw();
+		}
+		Segment.prototype.width = Defaults.width;
+		Segment.prototype.height = Defaults.height;
+		function Snake () {
+			this.body = [new Segment(2,0), new Segment(1,0), new Segment(0,0)];
+			this.maxLength = this.body.length;
+			this.direction = Direction.RIGHT;
+			this.move = function() {
+				if (this.body.length >= this.maxLength) {
+					$(this.body.pop().element).remove();
+				}
+				var head = this.body[0];
+				if (this.direction === Direction.RIGHT) {
+					this.body.unshift(new Segment(head.x+1, head.y));
+				} else if (this.direction === Direction.LEFT){
+					this.body.unshift(new Segment(head.x-1, head.y));
+				} else if (this.direction === Direction.UP){
+					this.body.unshift(new Segment(head.x, head.y-1));
+				} else if (this.direction === Direction.DOWN){
+					this.body.unshift(new Segment(head.x, head.y+1));
+				}
+			}
+		}
+		function Game () {
+			var self = this;
+			this.speed = 60;
+			this.snake = new Snake();
+			this.score = 0;
+			this.highScore = 0;
+			this.originalTitle = $("#mainHeader").html();
+			this.apple = new Segment(Math.floor(Math.random()*$(window).outerWidth() / Segment.prototype.width ),
+									Math.floor(Math.random()*$(window).outerHeight() / Segment.prototype.height),
+									'red');
+			this.tick = function() {
+				this.snake.move();
+				var head = this.snake.body[0];
+				var maxWidth = Math.floor($(window).outerWidth() / Segment.prototype.width);
+				var maxHeight = Math.floor($(window).outerHeight() / Segment.prototype.height);
+				var destroy = false;
+				var i;
+				if (head.x >= maxWidth || head.x < 0 || head.y >= maxHeight || head.y < 0) {
+					destroy = true;	
+				}
+				if (head.x === self.apple.x && head.y === self.apple.y) {
+					self.snake.maxLength++;
+					self.score++;
+					$("#mainHeader").html("Score: "+ self.score + ", High Score: " + self.highScore);
+					var inBody = true;
+					while (inBody) {
+						inBody = false;
+						self.apple.x = Math.floor(Math.random()*maxWidth);
+						self.apple.y = Math.floor(Math.random()*maxHeight);
+						for (i = 0; i < this.snake.body.length; i++) {
+							if (self.apple.x === this.snake.body[i].x && self.apple.y === this.snake.body[i].y ) {
+								inBody = true;
+								break;
+							}
+						}
+					}
+					self.apple.draw();
+				}
+				for (i = 1; i < this.snake.body.length; i++) {
+					if (head.x === this.snake.body[i].x && head.y === this.snake.body[i].y) {
+						destroy = true;
+						break;	
+					}
+				}
+				if (destroy) {
+					if (self.score > self.highScore) {
+						self.highScore = self.score;
+					}
+					self.score = 0;
+					$("#mainHeader").html("Score: "+ self.score + ", High Score: " + self.highScore);
+					for (i = 0; i < this.snake.body.length; i++) {
+						$(this.snake.body[i].element).remove();
+					}
+					this.snake = new Snake();
+				}
+			}
+			this.end = function() {
+				$("#mainHeader").html(this.originalTitle);
+				for (i = 0; i < this.snake.body.length; i++) {
+					$(this.snake.body[i].element).remove();
+				}
+				$(this.apple.element).remove();
+			}
+			this.timer = window.setInterval(function(){self.tick()}, self.speed);
+			$("#mainHeader").html("Score: "+ self.score + ", High Score: " + self.highScore);
+		}
+		function handleKeyPress(game, event) {
+			var dir = game.snake.direction;
+			if (event.keyCode === 38 && dir !== Direction.DOWN) {
+				game.snake.direction = Direction.UP;
+			} else if (event.keyCode === 40 && dir !== Direction.UP) {
+				game.snake.direction = Direction.DOWN;
+			}  else if (event.keyCode === 37 && dir !== Direction.RIGHT) {
+				game.snake.direction = Direction.LEFT;
+			} else if (event.keyCode === 39 && dir !== Direction.LEFT) {
+				game.snake.direction = Direction.RIGHT;
+			} else if (event.keyCode === 27){
+				window.clearInterval(game.timer);
+				window.onkeydown = function(event) {
+					getKonamiCode(event);
+				}
+				game.end();
+				game = null;
+				return;
+			}
+			window.clearInterval(game.timer);
+			game.tick();
+			game.timer = window.setInterval(function(){game.tick();}, game.speed);
+		}
+		function getKonamiCode(event) {
+			var i;
+			var konamiCode = [38,38,40,40,37,39,37,39,66,65,13]; 
+			currentKonamiEvents.push(event.keyCode);
+			for (i=0; i<currentKonamiEvents.length; i++) {
+				if (currentKonamiEvents[i] !== konamiCode[i]) {
+					currentKonamiEvents = [];
+					break;	
+				}
+			}
+			if (currentKonamiEvents.length === konamiCode.length) {
+				var g = new Game();
+				window.onkeydown = function(event) {
+					handleKeyPress(g, event);
+				};
+			}
+		}
+		$(function() {
+			window.onkeydown = function(event) {
+				getKonamiCode(event);
+			};
+		});
+	

@@ -1,0 +1,29 @@
+extends layout
+block content
+	p Legend has it that no two video game characters are more than six steps removed from each other. 
+	div#leftSide
+		span.video-game-button(data-bind="click: openFromChars") A
+		input#fromCharactersInput(type="text", data-bind="visible: !fromCharsVisible()")
+		div.select
+			select#fromCharacters(data-bind="val: fromCharacter, visible: fromCharsVisible, event: { blur: function(){fromCharsVisible(false);}}")
+		br
+		span.video-game-button(data-bind="click: openToChars") B
+		input#toCharactersInput(type="text", data-bind="visible: !toCharsVisible()")
+		div.select
+			select#toCharacters(data-bind="val: toCharacter, visible: toCharsVisible, event: { blur: function(){toCharsVisible(false);}}")
+		br
+		span.start-btn(data-bind="click: startBtn" ) start
+		br
+		span.start-btn(data-bind="click: randomPath") random
+		//p(style="font-size: 10pt; text-align: justify;").
+			We want to make this site as awesome as you are. Got a suggestion? Found a shorter connection between two characters than what
+			we have listed?
+		//span.start-btn(style="width: initial")
+			a contact us!
+	div#rightSide
+		img(src="images/ajax-loader.gif", alt="ajax-loader", data-bind="visible: isLoading", style="height: 200px")
+		h3#baconNumber(data-bind="if: connections().length > 0 && !isLoading()")
+			span(data-bind="html: baconNumber")
+		ul#connectionList(data-bind="visible: connections().length > 0 && !isLoading(), foreach: connections")
+			li
+				span.connection(data-bind="html: $data, css: {character: $index() % 4 === 0, connectionDescription:($index()+1) % 2 === 0, game: ($index()+2) % 4 === 0}")

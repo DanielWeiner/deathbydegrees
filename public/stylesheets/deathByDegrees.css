@@ -1,0 +1,82 @@
+.direction {
+    display: inline-block;
+    width: 62px;
+    font-weight: bold;
+}
+#connectionList {
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+}
+#connectionList li{
+    text-align: center;
+}
+#baconNumber {
+    font-size: 15pt;
+    text-align: center;
+    font-family: Joystix;
+}
+.connection {
+    margin: 2px;
+    display: inline-block;
+    min-width: 75px;  
+    font-family: Joystix;
+}
+.connectionDescription{
+    font-size: 10pt;   
+}
+.game, .character {
+    color: red;
+    padding: 4px 7px;
+    -webkit-box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+    -moz-box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+    -o-box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+    box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+}
+.game {
+    background-color: #aaaaff;
+}
+.character {
+    background-color: #aaffaa;  
+}
+.select {
+    margin: 5px;
+    display: inline-block;
+        -webkit-box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+    -moz-box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+    -o-box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+    box-shadow:4px 0 white, -4px 0 white, 0 4px white, 0 -4px white;
+}
+select, #toCharactersInput, #fromCharactersInput {
+ width: 250px;
+ height: 18pt;   
+}
+#toCharactersInput, #fromCharactersInput {
+    border:0;
+    font-size: 10pt;
+    font-family: joystix;
+    padding-left:5px;
+}
+select, option, .ui-menu-item{
+    font-size: 10pt;
+    font-family: joystix; 
+    margin:0; 
+    border: 0;
+    background-color: cyan !important;
+    padding: 0;
+}
+.ui-autocomplete, .ui-autocomplete li, .ui-autocomplete li a {
+    margin:0 !important;
+    border:0 !important;
+    border-radius:0;
+}
+.ui-autocomplete .ui-state-focus{
+    background: blue;
+    color: white;
+}
+.ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
