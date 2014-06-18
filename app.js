@@ -2,24 +2,23 @@ var express = require('express'),
 http = require('http'),
 routes = require('./routes'),
 path = require('path'),
-sqlConnection = require('./models/sqlConnection.js');
 Page = require('./models/page.js');
+bodyParser = require('body-parser'),
+favicon = require('serve-favicon'),
+logger = require('logger'),
+methodOverride = require('method-override');
 var app = express();
+console.log('df');
 
-if(process.env.VCAP_SERVICES){
-    var env = JSON.parse(process.env.VCAP_SERVICES);
-    var mongo = env['mongodb-1.8'][0]['credentials'];
+var mongo = {
+    "hostname":"localhost",
+    "port":27017,
+    "username":"",
+    "password":"",
+    "name":"",
+    "db":"deathbydegrees"
 }
-else{
-    var mongo = {
-        "hostname":"localhost",
-        "port":27017,
-        "username":"",
-        "password":"",
-        "name":"",
-        "db":"deathbydegrees"
-    }
-}
+
 var generate_mongo_url = function(obj){
     obj.hostname = (obj.hostname || 'localhost');
     obj.port = (obj.port || 27017);
@@ -62,22 +61,20 @@ function myMap(array, callback) {
 	}
 	return results;
 }
-app.configure(function() {
-	app.set('port', process.env.VCAP_APP_PORT || 3000);
-	app.set('views', __dirname + '/views');
-	app.set('view engine', 'jade');
-	app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
-	app.use(express.logger('dev'));
-	app.use(express.bodyParser());
-	app.use(express.methodOverride());
-	app.use(app.router);
-	app.use(require('stylus').middleware(__dirname + '/public'));
-	app.use(express.static(__dirname + '/public'));
-});
-app.configure('development', function(){
-	app.use(express.errorHandler());
-});
+// var env = app.settings.env;
+// if ('production' == env) {
+
+app.set('port', process.env.VCAP_APP_PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+//app.use(favicon('http://localhost:3000/public/images', function(){}));
+//app.use(logger.createLogger);
+app.use(bodyParser());
+app.use(methodOverride());
+
+
 app.get('/', function(req, res) {
+	console.log('sdf');
 	res.render('index', new Page({
 			scripts: ["deathByDegrees.js"],
 			styles: ["deathByDegrees.css"]
@@ -419,6 +416,7 @@ app.post('/upload', function(req, res){
 		}
 	}
 });
+app.use(express.static(__dirname + '/public'));
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));
 });

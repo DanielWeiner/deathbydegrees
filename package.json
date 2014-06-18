@@ -1,7 +1,14 @@
 {
- "name":"af-node-base",
-  "version":"0.0.1",
-  "dependencies":{
-      "express":""
-  }
+	"name": "deathbydegrees",
+	"version": "0.1.0",
+	"author": "Alex Jaffe and Daniel Weiner",
+	"dependencies": {
+		"express": ">=4.4.3",
+		"mongodb": ">=1.4.6",
+		"serve-favicon": "*",
+		"body-parser": "*",
+		"logger": "*",
+		"method-override": "*",
+		"jade": "*"
+	}
 }
