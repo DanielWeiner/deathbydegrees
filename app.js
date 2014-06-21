@@ -263,7 +263,7 @@ app.post('/upload', function(req, res){
 				var i, j, k, L;
 				console.log(err);
 				dataStr = data.toString();
-				var textRows = dataStr.split("\r\n");
+				var textRows = dataStr.replace(/\r?\n/g,'%#%').split("%#%");
 				var gameTitles = textRows[0].split("\t");
 				mongodb.connect(mongourl, function (error, client) {
 					theClient = client;
